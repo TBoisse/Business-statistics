@@ -9,6 +9,9 @@ class Transaction():
     def __repr__(self):
         return f"{self.date} : {self.title} [{self.price}]"
     
+def initiate_transaction(path):
+    with open(path, "w+") as f:
+        f.write("date;title;price;type\n")
 
 def write_transaction(f, transactions : list[Transaction]):
     for transaction in transactions:

@@ -20,7 +20,7 @@ def load_model(model_path):
     class_names = ckpt.get("class_names", None)
     return device, clip_model, classifier, preprocess, class_names
 
-def predict(image_path, device, clip_model, classifier, preprocess, class_names):
+def predict_platform(image_path, device, clip_model, classifier, preprocess, class_names):
     img = preprocess(Image.open(image_path).convert("RGB")).unsqueeze(0).to(device)
     with torch.no_grad():
         feat = clip_model.encode_image(img)
@@ -36,8 +36,8 @@ def predict(image_path, device, clip_model, classifier, preprocess, class_names)
     else:
         return idx.item(), conf.item()
 
-device, clip_model, classifier, preprocess, class_names = load_model("./separation/clip_screenshot_classifier.pt")
-# predict for vinted
-print("*-* Try for vinted : ", predict("./data/processed/train/vinted/img_0001.png", device, clip_model, classifier, preprocess, class_names))
-# predict for leboncoin
-print("*-* Try for leboncoin : ", predict("./data/processed/train/leboncoin/img_0001.png", device, clip_model, classifier, preprocess, class_names))
+# device, clip_model, classifier, preprocess, class_names = load_model("./separation/clip_screenshot_classifier.pt")
+# # predict for vinted
+# print("*-* Try for vinted : ", predict("./data/processed/train/vinted/img_0001.png", device, clip_model, classifier, preprocess, class_names))
+# # predict for leboncoin
+# print("*-* Try for leboncoin : ", predict("./data/processed/train/leboncoin/img_0001.png", device, clip_model, classifier, preprocess, class_names))
