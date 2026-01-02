@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from PIL import Image
 
-def load_model(model_path):
+def load_model_platform(model_path):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     ckpt = torch.load(model_path, map_location=device)
 
@@ -20,7 +20,7 @@ def load_model(model_path):
     class_names = ckpt.get("class_names", None)
     return device, clip_model, classifier, preprocess, class_names
 
-def predict_platform(image_path, device, clip_model, classifier, preprocess, class_names):
+def sep_platform(image_path, device, clip_model, classifier, preprocess, class_names):
     img = preprocess(Image.open(image_path).convert("RGB")).unsqueeze(0).to(device)
     with torch.no_grad():
         feat = clip_model.encode_image(img)
