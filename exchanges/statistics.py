@@ -37,7 +37,7 @@ def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown"):
             else:
                 step = 3
                 details.append(title[:-1])
-                details.append(words[i])
+                details.append(float(words[i].split(" ")[0].replace(",",".")))
                 continue
         step = 2
         title += words[i]
@@ -55,7 +55,7 @@ def extract_from_leboncoin(ocr : PaddleOCR, img_path : str, tr_type = "unknown")
             continue
         if len(details) == 3:
             if "€" in word:
-                details.append(word)
+                details.append(float(word.split(" ")[0].replace(",",".")))
                 ret.append(Transaction(details[2], details[0], details[1], details[3], tr_type))
             continue
         if len(details) > 0:
