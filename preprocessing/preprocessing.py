@@ -39,9 +39,3 @@ def process_reset(output_dir):
             shutil.rmtree(full_path)
         else:
             os.remove(full_path)
-
-csv_path = "data/metadata/annotations.csv"
-output_dir = "data/processed"
-# process_reset(output_dir)
-# process_resize(csv_path, output_dir)
-# process_regular(csv_path, output_dir)
