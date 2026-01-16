@@ -2,7 +2,7 @@ from paddleocr import PaddleOCR
 from datetime import datetime
 from exchanges.transaction import Transaction
 
-def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown"):
+def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown", date = ""):
     ocr_ret = ocr.predict(img_path)
     words = ocr_ret[0]["rec_texts"]
     details = []
@@ -10,6 +10,8 @@ def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown"):
     step = 0
     title = ""
     skip = 0
+    if len(date) == 0:
+        date = datetime.today().strftime("%d/%m/%Y")
     for i in range(len(words)):
         if skip > 0:
             skip -= 1
@@ -22,7 +24,7 @@ def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown"):
         if "Commande" in words[i] or "Transaction" in words[i]:
             if step == 3:
                 details.append(words[i] + " " + words[i + 1])
-                ret.append(Transaction(details[0], datetime.today().strftime("%d/%m/%Y"), details[2], details[1], tr_type))
+                ret.append(Transaction(details[0], date, details[2], details[1], tr_type))
             details = []
             title = ""
             skip = 1
