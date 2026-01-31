@@ -16,8 +16,8 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output_path', default="statistics.csv", help="Select where will the statistics be stored.")
     parser.add_argument('-n', '--no_statistics', action='store_true', help="When set, stops before producing statistics. Mainly useful when only preprocessing is wanted.")
     args = parser.parse_args()
-    assert os.path.isfile(args.output_path), "Select a file that already exist"
-
+    if not os.path.isfile(args.output_path):
+        initiate_transaction(args.output_path)
     input_dir = "data/real"
     tmp_path = "temporary.csv"
     annotation_preprocessing_path = "data/metadata/annotations_training.csv"
@@ -49,7 +49,7 @@ if __name__ == "__main__":
             else:
                 transactions = extract_from_leboncoin(ocr, path, tr_type)
             write_transaction(f, transactions)
-    
+
     df_tmp = pd.read_csv(tmp_path, sep=";")
     df_real = pd.read_csv(args.output_path, sep=";")
     df = pd.concat([df_tmp, df_real])
@@ -57,3 +57,4 @@ if __name__ == "__main__":
     df = df.sort_values(by="date", ascending=False)
     df = df.drop_duplicates(subset=["title", "price"])
     df.to_csv(args.output_path, sep=";", index=False)
+    os.remove(tmp_path)

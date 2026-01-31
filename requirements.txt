@@ -1,0 +1,7 @@
+pandas
+paddleocr==3.3.2
+paddlepaddle==3.2.2
+paddlex==3.3.12
+pillow
+opencv-python
+tqdm
