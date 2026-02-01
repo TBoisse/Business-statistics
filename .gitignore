@@ -1,1 +1,5 @@
 database/
+data/
+.ipynb_checkpoints/
+statistics.csv
+__pycache__/
