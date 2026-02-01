@@ -2,7 +2,19 @@ from paddleocr import PaddleOCR
 from datetime import datetime
 from exchanges.transaction import Transaction
 
-def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown", date = ""):
+def extract_from_vinted(ocr : PaddleOCR, img_path : str, tr_type : str = "unknown", date : str = ""):
+    """
+    Use OCR parsing to extract data from Vinted transactions screenshots.
+    
+    :param ocr: A PaddleOCR model.
+    :type ocr: PaddleOCR
+    :param img_path: Path to the image that needs to be scanned.
+    :type img_path: str
+    :param tr_type: Transaction type (Sale vs Purchase)
+    :type tr_type: str
+    :param date: Date of the transaction. If not given, use current date.
+    :type date: str
+    """
     ocr_ret = ocr.predict(img_path)
     words = ocr_ret[0]["rec_texts"]
     details = []
@@ -47,6 +59,16 @@ def extract_from_vinted(ocr : PaddleOCR, img_path, tr_type = "unknown", date = "
     return ret
 
 def extract_from_leboncoin(ocr : PaddleOCR, img_path : str, tr_type = "unknown"):
+    """
+    Use OCR parsing to extract data from Vinted transactions screenshots.
+    
+    :param ocr: A PaddleOCR model.
+    :type ocr: PaddleOCR
+    :param img_path: Path to the image that needs to be scanned.
+    :type img_path: str
+    :param tr_type: Transaction type (Sale vs Purchase)
+    :type tr_type: str
+    """
     ocr_ret = ocr.predict(img_path)
     details = []
     ret = []

@@ -1,7 +1,15 @@
 import cv2
 import numpy as np
 
-def sep_buysell(img_path, platform):
+def sep_buysell(img_path : str, platform : str):
+    """
+    Return the transaction type for the platform.
+    
+    :param img_path: The screenshot path.
+    :type img_path: str
+    :param platform: The platform from which the screenshot come.
+    :type platform: str
+    """
     img_bgr = cv2.imread(img_path)
     h, w, _ = img_bgr.shape
     header = img_bgr[int(0.14 * h):int(0.17 * h), :]

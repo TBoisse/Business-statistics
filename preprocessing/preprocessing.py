@@ -4,7 +4,15 @@ from PIL import Image
 import pandas as pd
 from tqdm import tqdm
 
-def process_regular(csv_path, output_dir):
+def process_regular(csv_path : str, output_dir : str):
+    """
+    Divide screenshots in different folders using an annotation csv file.
+    
+    :param csv_path: The annotation csv file.
+    :type csv_path: str
+    :param output_dir: The parent folder where the files will be divided.
+    :type output_dir: str
+    """
     df = pd.read_csv(csv_path)
     classes = df["platform"].unique()
     for cls in classes:
@@ -13,7 +21,17 @@ def process_regular(csv_path, output_dir):
         new_path = os.path.join(output_dir, df["platform"][i], df["image_id"][i] + "." + df["path"][i].split(".")[1])
         shutil.copy(df["path"][i], new_path)
 
-def process_resize(csv_path, output_dir, img_size = (224,224)):
+def process_resize(csv_path : str, output_dir : str, img_size : tuple[int,int] = (224,224)):
+    """
+    Resize screenshots before dividing them in different folders using an annotation csv file.
+    
+    :param csv_path: The annotation csv file.
+    :type csv_path: str
+    :param output_dir: The parent folder where the files will be divided.
+    :type output_dir: str
+    :param img_size: The resized size for the screenshots.
+    :type img_size: tuple[int, int]
+    """
     df = pd.read_csv(csv_path)
     classes = df["platform"].unique()
     for cls in classes:
@@ -32,7 +50,13 @@ def process_resize(csv_path, output_dir, img_size = (224,224)):
         except Exception as e:
             print(f"Erreur {src_path}: {e}")
 
-def process_reset(output_dir):
+def process_reset(output_dir : str):
+    """
+    Empty the process folder.
+    
+    :param output_dir: The parent folder where the files are divided.
+    :type output_dir: str
+    """
     for path in os.listdir(output_dir):
         full_path = os.path.join(output_dir, path)
         if os.path.isdir(full_path):
